@@ -1,5 +1,6 @@
 package com.example.wedecomerce.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +34,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "sub_category")
 public class SubCategory implements Serializable {
@@ -50,17 +50,17 @@ public class SubCategory implements Serializable {
     @Column(name = "image", length = 250)
     private String image;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "description", length = 250, nullable = false)
+    private String description;
+
+    @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"subCategories","categoriesChild"})
     private Category category;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "subCategory")
-    @JsonIgnoreProperties(value = {"subCategory"}, allowSetters = true)
-    Set<Product> products = new HashSet<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "promotion")
-    @JsonIgnoreProperties(value = {"category"}, allowSetters = true)
-    Set<Variation> variations = new HashSet<>();
+    @JsonIgnoreProperties(value = {"subCategory","productDetails"}, allowSetters = true)
+    private Set<Product> products = new HashSet<>();
 
     @CreatedDate
     @Column(name = "created_date", updatable = false)
@@ -78,8 +78,7 @@ public class SubCategory implements Serializable {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", image='" + image + '\'' +
-                ", category=" + category +
+                ", thumbnail='" + image + '\'' +
                 ", status=" + status +
                 '}';
     }

@@ -8,7 +8,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,8 +44,16 @@ public class VariationOption implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 150, nullable = false)
-    private String name;
+    @Column(name = "value", length = 150, nullable = false)
+    private String value;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "variation_id", referencedColumnName = "id")
+    private Variation variation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "asset_id", referencedColumnName = "id")
+    private Asset asset;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "variationOptions")
     @JsonIgnoreProperties(value = {"variationOptions"}, allowSetters = true)
@@ -62,9 +72,9 @@ public class VariationOption implements Serializable {
 
     @Override
     public String toString() {
-        return "VariationOption{" +
+        return "VariationOption {" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", value='" + value + '\'' +
                 ", createdDate=" + createdDate +
                 ", lastModifiedDate=" + lastModifiedDate +
                 ", status=" + status +

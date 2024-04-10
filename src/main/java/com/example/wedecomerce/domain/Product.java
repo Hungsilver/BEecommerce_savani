@@ -1,5 +1,7 @@
 package com.example.wedecomerce.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -9,8 +11,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +32,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+
 @Getter
 @Setter
 @Builder
@@ -45,26 +50,29 @@ public class Product implements Serializable {
     private Long id;
 
     @Column(name = "code", length = 20, nullable = false)
-    private String code;
+    private String code; // hiển thị khi mua sp
 
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @ManyToOne
+    @JoinColumn(name = "sub_category_id")
+    @JsonIgnoreProperties(value = {"products","category"}, allowSetters = true)
+    private SubCategory subCategory;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "promotion_id")
+    @JsonIgnoreProperties(value = {"products"})
     private Promotion promotion;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "image", length = 150)
+    @Column(name = "image", length = 250)
     private String image;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    @JsonIgnoreProperties(value = {"product", "variationOptions"})
     private Set<ProductDetail> productDetails = new HashSet<>();
 
     @CreatedDate
@@ -82,11 +90,15 @@ public class Product implements Serializable {
     public String toString() {
         return "Product{" +
                 "id=" + id +
+                ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
+//                ", subCategory=" + subCategory +
+                ", promotion=" + promotion +
                 ", description='" + description + '\'' +
                 ", image='" + image + '\'' +
+                ", createdDate=" + createdDate +
+                ", lastModifiedDate=" + lastModifiedDate +
                 ", status=" + status +
                 '}';
     }
-
 }

@@ -86,8 +86,8 @@ public class User extends AbstractEntity<Long> implements Serializable {
     private String langKey;
 
     @Size(max = 256)
-    @Column(name = "image_url", length = 256)
-    private String imageUrl;
+    @Column(name = "image", length = 256)
+    private String image;
 
     @Size(max = 20)
     @Column(name = "activation_key", length = 20)
@@ -124,7 +124,7 @@ public class User extends AbstractEntity<Long> implements Serializable {
                 ", email='" + email + '\'' +
                 ", activated=" + activated +
                 ", langKey='" + langKey + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", imageUrl='" + image + '\'' +
                 ", activationKey='" + activationKey + '\'' +
                 ", resetKey='" + resetKey + '\'' +
                 ", resetDate=" + resetDate +
