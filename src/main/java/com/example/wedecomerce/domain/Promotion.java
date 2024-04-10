@@ -85,5 +85,5 @@ public class Promotion implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "promotion")
     @JsonIgnoreProperties(value = {"category", "promotion", "productDetails"}, allowGetters = true)
-    Set<Product> products = new HashSet<>();
+    private Set<Product> products = new HashSet<>();
 }

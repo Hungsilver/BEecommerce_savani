@@ -1,8 +1,6 @@
 package com.example.wedecomerce.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -10,8 +8,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -32,12 +28,13 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@EqualsAndHashCode
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "category")
-public class Category implements Serializable {
+@Table(name = "asset")
+public class Asset implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,32 +42,14 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 100, nullable = false)
+    @Column(name = "name", length = 100)
     private String name;
 
-    @Column(name = "thumbnail", length = 250)
-    private String thumbnail;
+    @Column(name = "file_path", length = 100)
+    private String filePath;
 
-    @Column(name = "description", length = 100)
-    private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "parent_category_id", referencedColumnName = "id")
-//    @JsonIgnoreProperties(value = {"subCategories", "categoriesChild"})
-    @JsonIgnore
-    private Category categoryParent;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "categoryParent")
-    @JsonIgnoreProperties(value = {"categoryParent","categoriesChild"})
-    private Set<Category> categoriesChild = new HashSet<>();
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "category", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"category,products"})
-    private Set<SubCategory> subCategories = new HashSet<>();
-
-
-    @Column(name = "status")
-    private Integer status = 0;
+    @Column(name = "type", length = 100)
+    private String type;
 
     @CreatedDate
     @Column(name = "created_date", updatable = false)
@@ -80,18 +59,17 @@ public class Category implements Serializable {
     @Column(name = "last_modified_date")
     private Instant lastModifiedDate = Instant.now();
 
+    @Column(name = "status")
+    private Integer status = 0;
+
     @Override
     public String toString() {
-        return "Category{" +
+        return "Variation{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", thumbnail='" + thumbnail + '\'' +
-                ", description='" + description + '\'' +
-                ", categoryparent=" + categoryParent +
-                ", status=" + status +
                 ", createdDate=" + createdDate +
                 ", lastModifiedDate=" + lastModifiedDate +
+                ", status=" + status +
                 '}';
     }
-
 }

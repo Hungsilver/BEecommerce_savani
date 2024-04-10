@@ -34,7 +34,6 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "product_detail")
 public class ProductDetail extends AbstractEntity<Long> implements Serializable {
@@ -45,28 +44,30 @@ public class ProductDetail extends AbstractEntity<Long> implements Serializable 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "sku", length = 30, nullable = false)
+    private String sku;
+
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "sku", length = 30, nullable = false)
-    private String sku;
+    @Column(name = "image", length = 100, nullable = false)
+    private String image;
 
     @Column(name = "price", nullable = false)
     private Float price;
 
     @Column(name = "sold")
-    private Integer sold;
-
+    private Integer sold; // số lượng đã bán
 
     @Column(name = "featured")
-    private Float featured;
+    private Boolean featured; // có là sản phẩm nổi bật hay không
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
     @Column(name = "status")
-    private Integer status = 0;
+    private Integer status = 1;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "productDe_variantOp",
@@ -86,10 +87,17 @@ public class ProductDetail extends AbstractEntity<Long> implements Serializable 
 
     @Override
     public String toString() {
-        return "Variation{" +
+        return "ProductDetail{" +
                 "id=" + id +
+                ", sku='" + sku + '\'' +
                 ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", price=" + price +
+                ", sold=" + sold +
+                ", featured=" + featured +
                 ", status=" + status +
+                ", createdDate=" + createdDate +
+                ", lastModifiedDate=" + lastModifiedDate +
                 '}';
     }
 
