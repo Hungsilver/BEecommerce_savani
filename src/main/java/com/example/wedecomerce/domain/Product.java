@@ -11,9 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedAttributeNode;
-import jakarta.persistence.NamedEntityGraph;
-import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -58,6 +55,7 @@ public class Product implements Serializable {
     @ManyToOne
     @JoinColumn(name = "sub_category_id")
     @JsonIgnoreProperties(value = {"products","category"}, allowSetters = true)
+    @JsonIgnore
     private SubCategory subCategory;
 
     @ManyToOne
@@ -68,11 +66,15 @@ public class Product implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "featured")
+    private Boolean featured;
+
     @Column(name = "image", length = 250)
     private String image;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-    @JsonIgnoreProperties(value = {"product", "variationOptions"})
+    @JsonIgnoreProperties(value = {"product","variationOptions"})
+    @JsonIgnore
     private Set<ProductDetail> productDetails = new HashSet<>();
 
     @CreatedDate

@@ -70,6 +70,12 @@ public class SubCategory implements Serializable {
     @Column(name = "last_modified_date")
     private Instant lastModifiedDate = Instant.now();
 
+    public SubCategory(Long id, String name, String image) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+    }
+
     @Column(name = "status")
     private Integer status = 0;
 

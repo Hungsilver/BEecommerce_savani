@@ -1,20 +1,20 @@
-package com.example.wedecomerce.dto;
+package com.example.wedecomerce.dto.home_page;
 
-import com.example.wedecomerce.domain.Category;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class CategoryDTO implements Serializable {
+@Builder
+public class ProductHomeDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,9 +24,9 @@ public class CategoryDTO implements Serializable {
 
     private String thumbnail;
 
-    private String description;
+    private Integer status;
 
-    private String status;
+    private Long promotionId;
 
-    private Category categoryChild;
+    private Long subCategoryId;
 }
