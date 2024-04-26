@@ -47,17 +47,17 @@ public class ProductDetail extends AbstractEntity<Long> implements Serializable 
     @Column(name = "sku", length = 30, nullable = false)
     private String sku;
 
-    @Column(name = "name", length = 100, nullable = false)
-    private String name;
-
     @Column(name = "image", length = 100, nullable = false)
     private String image;
 
     @Column(name = "price", nullable = false)
-    private Float price;
+    private Double price;
 
     @Column(name = "sold")
     private Integer sold; // số lượng đã bán
+
+    @Column(name = "quantity")
+    private Integer quantity;
 
     @Column(name = "featured")
     private Boolean featured; // có là sản phẩm nổi bật hay không
@@ -74,7 +74,7 @@ public class ProductDetail extends AbstractEntity<Long> implements Serializable 
             joinColumns = @JoinColumn(name = "product_detail_id"),
             inverseJoinColumns = @JoinColumn(name = "variant_option_id")
     )
-    @JsonIgnoreProperties(value = {"product", "variationOption"}, allowSetters = true)
+    @JsonIgnoreProperties(value = {"productDetails","asset","variation"}, allowSetters = true)
     Set<VariationOption> variationOptions = new HashSet<>();
 
     @CreatedDate
@@ -90,7 +90,6 @@ public class ProductDetail extends AbstractEntity<Long> implements Serializable 
         return "ProductDetail{" +
                 "id=" + id +
                 ", sku='" + sku + '\'' +
-                ", name='" + name + '\'' +
                 ", image='" + image + '\'' +
                 ", price=" + price +
                 ", sold=" + sold +

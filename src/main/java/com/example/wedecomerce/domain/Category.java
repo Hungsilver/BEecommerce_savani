@@ -61,10 +61,11 @@ public class Category implements Serializable {
     private Category categoryParent;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "categoryParent")
+    @JsonIgnore
     @JsonIgnoreProperties(value = {"categoryParent","categoriesChild"})
     private Set<Category> categoriesChild = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     @JsonIgnoreProperties(value = {"category,products"})
     private Set<SubCategory> subCategories = new HashSet<>();
 
@@ -88,6 +89,7 @@ public class Category implements Serializable {
                 ", thumbnail='" + thumbnail + '\'' +
                 ", description='" + description + '\'' +
                 ", categoryparent=" + categoryParent +
+                ", subCare=" + subCategories +
                 ", status=" + status +
                 ", createdDate=" + createdDate +
                 ", lastModifiedDate=" + lastModifiedDate +

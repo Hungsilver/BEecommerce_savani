@@ -48,7 +48,7 @@ public class VariationOption implements Serializable {
     private String value;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "variation_id", referencedColumnName = "id")
+    @JoinColumn(name = "variation_id",referencedColumnName = "id")
     private Variation variation;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -69,6 +69,11 @@ public class VariationOption implements Serializable {
 
     @Column(name = "status")
     private Integer status = 0;
+
+    public VariationOption(Long id, String value) {
+        this.id = id;
+        this.value = value;
+    }
 
     @Override
     public String toString() {
