@@ -1,6 +1,6 @@
 package com.example.wedecomerce.controller.rest;
 
-import com.example.wedecomerce.controller.rest.errors.InvalidPasswordException;
+import com.example.wedecomerce.controller.rest.exception.InvalidPasswordException;
 import com.example.wedecomerce.controller.vm.ManagedUserVM;
 import com.example.wedecomerce.domain.User;
 import com.example.wedecomerce.repository.UserRepository;
@@ -9,21 +9,11 @@ import com.example.wedecomerce.service.MailService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.web.server.Cookie;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 
@@ -32,6 +22,7 @@ import java.time.Instant;
 @Tag(name = "Account")
 @SessionAttributes({"otp", "account"})
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class AccountRestController {
 
     private final UserRepository userRepository;
@@ -69,7 +60,7 @@ public class AccountRestController {
         }
         User userSaved = userService.registerUser((ManagedUserVM) userSession);
         if (userSaved == null) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body("khong thanh cong");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("khong thanh cong");
         }
         otpSession.removeAttribute("otp");
         otpSession.removeAttribute("account");

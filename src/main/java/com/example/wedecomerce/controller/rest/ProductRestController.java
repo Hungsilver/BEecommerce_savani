@@ -1,6 +1,7 @@
 package com.example.wedecomerce.controller.rest;
 
-import com.example.wedecomerce.controller.rest.errors.BadRequestAlertException;
+import com.example.wedecomerce.controller.rest.exception.BadRequestAlertException;
+import com.example.wedecomerce.controller.rest.exception.NotFoundException;
 import com.example.wedecomerce.domain.Product;
 import com.example.wedecomerce.dto.buy_product.ProductSellerDTO;
 import com.example.wedecomerce.repository.CategoryRepository;
@@ -15,13 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -29,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/products")
 @Tag(name = "Products")
+@CrossOrigin(origins = "*")
 public class ProductRestController {
     private final IProductService productService;
     private final ProductRepository productRepository;
@@ -53,10 +49,10 @@ public class ProductRestController {
     @GetMapping("/products-by-subCategory-id/{id}")
     public ResponseEntity<?> getProductsBySubCategory(@PathVariable("id") Long id, @ParameterObject Pageable pageable) {
         if (id == null) {
-            throw new BadRequestAlertException("id SUBCAtegory cannot be null", "product", "idSubcategory");
+            throw new NotFoundException("id subcate null");
         }
         if (!subCategoryRepository.existsById(id)) {
-            throw new BadRequestAlertException("id SUBCAtegory not exist", "subCategory", "idSubcategory");
+            throw new NotFoundException("Subcate not exist");
         }
         Page<Product> products = productRepository.findBySubCategoryId(pageable, id);
         return ResponseEntity.ok().body(products);
@@ -70,21 +66,16 @@ public class ProductRestController {
         return ResponseEntity.ok().body(page.getContent());
     }
 
-    @GetMapping("/products-by-category")
-    public ResponseEntity<?> getProductAllCateHome() {
-        List<?> productsByCate = productService.getAllProductByCategories(5); //number product want show
-        return ResponseEntity.ok().body(productsByCate);
-    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getProductById(@PathVariable(value = "id") Long id) {
-        if (id == null) {
-            throw new BadRequestAlertException("id product cannot be null", "product", "id");
+    @GetMapping("/{code}")
+    public ResponseEntity<?> getProductByCode(@PathVariable(value = "code") String code) {
+        if (code == null) {
+            throw new NotFoundException("code product null");
         }
-        if (!productRepository.existsById(id)) {
-            throw new BadRequestAlertException("id product not exist", "product", "id");
+        if (!productRepository.existsByCode(code)) {
+            throw new NotFoundException("product not exists");
         }
-        ProductSellerDTO product = productService.getOne(id);
+        ProductSellerDTO product = productService.getOne(code);
         return ResponseEntity.ok().body(product);
     }
 

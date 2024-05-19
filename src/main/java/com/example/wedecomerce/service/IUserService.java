@@ -8,11 +8,17 @@ import org.springframework.data.domain.Pageable;
 
 public interface IUserService {
 
-   Page<User> getUsers(Pageable pageable);
-   User registerUser(ManagedUserVM userVM);
-   User activatedUser(String email);
+    Page<User> getUsers(Pageable pageable);
 
-   User createUser(ManagedUserVM userVM);
-   User updateUser(ManagedUserVM userVM,Long idUser);
-   void deleteUser(String login);
+    User registerUser(ManagedUserVM userVM);
+
+    User activatedUser(String email);
+
+    User getUserCurrentLogin();
+
+    User createUser(ManagedUserVM userVM);
+
+    User updateUser(ManagedUserVM userVM, Long idUser);
+
+    void deleteUser(String login);
 }

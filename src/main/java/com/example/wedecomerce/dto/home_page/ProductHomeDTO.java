@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 @AllArgsConstructor
@@ -20,13 +21,21 @@ public class ProductHomeDTO implements Serializable {
 
     private Long id;
 
+    private String code;
+
     private String name;
 
     private String thumbnail;
 
     private Integer status;
 
-    private Long promotionId;
+    private Integer showDiscount;
+
+    private BigDecimal price;
+
+    private Integer sold; // luot ban
+
+    private BigDecimal priceBeforeDiscount;
 
     private Long subCategoryId;
 }

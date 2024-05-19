@@ -1,4 +1,4 @@
-package com.example.wedecomerce.controller.rest.errors;
+package com.example.wedecomerce.controller.rest.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.ErrorResponseException;

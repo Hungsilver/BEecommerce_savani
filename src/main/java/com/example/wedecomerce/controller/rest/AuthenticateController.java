@@ -52,11 +52,6 @@ public class AuthenticateController {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
-    @GetMapping("/test")
-    public String testts(){
-        return "okk";
-    }
-
     @PostMapping("/authenticate")
     public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
         log.info("Authent"+ loginVM);
