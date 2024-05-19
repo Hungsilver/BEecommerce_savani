@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface IProductService {
+    
     Page<Product> getAll(Pageable pageable);
 
     List<CategoriesHomeDTO> getAllProductByCategories(Integer numberProduct);
@@ -19,5 +20,5 @@ public interface IProductService {
 
     void deleteById(Long idProduct);
 
-    ProductSellerDTO getOne(Long id);
+    ProductSellerDTO getOne(String code);
 }

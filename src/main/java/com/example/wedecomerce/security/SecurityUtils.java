@@ -14,7 +14,7 @@ public class SecurityUtils {
 
     public static final String AUTHORITIES_KEY = "auth";
 
-    private static Optional<String> getCurrentAuthority() {
+    public static Optional<String> getCurrentAuthority() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(extractPrincipal(securityContext.getAuthentication()));
     }

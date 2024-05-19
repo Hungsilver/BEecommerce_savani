@@ -74,7 +74,6 @@ public class Product implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     @JsonIgnoreProperties(value = {"product","variationOptions"})
-    @JsonIgnore
     private Set<ProductDetail> productDetails = new HashSet<>();
 
     @CreatedDate

@@ -21,6 +21,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,15 +39,21 @@ public class ProductDetailDTO implements Serializable {
 
     private String sku;
 
-    private String name; //name attribute
+    private String name; //name attribute (xanh,L)
+
+    private String nameProduct; //name product
 
     private String image;
 
-    private Double price;
+    private BigDecimal price; // gia thuc te
+
+    private BigDecimal priceBeforeDiscount; // gia truoc khi giam
+
+    private Integer showDiscount;
 
     private Integer sold; // số lượng đã bán
 
-    private Integer quantity;
+    private Integer stock; // sl sp trong kho
 
     private Boolean featured; // có là sản phẩm nổi bật hay không
 
