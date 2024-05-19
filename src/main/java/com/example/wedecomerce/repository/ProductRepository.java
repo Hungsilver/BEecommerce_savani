@@ -49,11 +49,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // get product is featured
     @Query(value = """
             select p.*
-            from ecommerce.product p
-            inner join ecommerce.sub_category sc on p.sub_category_id = sc.id
-            inner join ecommerce.category c on sc.category_id = c.id
-            inner join ecommerce.category cp on c.parent_category_id = cp.id
-            inner join ecommerce.promotion pro on pro.id = p.promotion_id
+            from product p
+            inner join sub_category sc on p.sub_category_id = sc.id
+            inner join category c on sc.category_id = c.id
+            inner join category cp on c.parent_category_id = cp.id
+            inner join promotion pro on pro.id = p.promotion_id
             where cp.id =?1 and p.featured = true;
                         """, nativeQuery = true)
     List<Product> findByProductIsFeatured(Long categoryId);
