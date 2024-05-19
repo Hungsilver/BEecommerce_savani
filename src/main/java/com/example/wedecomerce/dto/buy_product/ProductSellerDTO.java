@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -31,22 +32,31 @@ public class ProductSellerDTO implements Serializable {
 
     private String name;
 
-    private Double priceMin;
+    private BigDecimal priceMin;
 
-    private Double priceMax;
+    private BigDecimal priceMax;
+
+    private BigDecimal priceMinBeforeDiscount;
+
+    private BigDecimal priceMaxBeforeDiscount;
+
+    private Integer showDiscount; // %
 
     private String description;
 
-    private String status;
+    private Integer status;
 
     @Size(max = 256)
     private String image;
+
+    @Size(max = 256)
+    private List<String> images;
 
     private Long promotionId;
 
     private Integer sold;
 
-    private Integer quantity;
+    private Integer stock;
 
 //    private ModelDTO models;
 

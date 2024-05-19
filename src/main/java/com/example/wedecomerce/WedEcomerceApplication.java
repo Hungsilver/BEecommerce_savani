@@ -13,6 +13,9 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
@@ -42,6 +45,7 @@ public class WedEcomerceApplication {
 
     @PostConstruct
     public void initApplication() {
+
 //        userRepository.save(User.builder()
 //                                    .email("hungsilver@gmail.com")
 //                                    .password(passwordEncoder.encode("1234"))
